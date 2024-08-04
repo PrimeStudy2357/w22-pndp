@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Cinema</title>
+    </head>
+    <body>
+        <h1>My Cinema</h1>
+        <div id="movie">
+            <span id="title"></span>
+            ,
+            <span id="year"></span>
+        </div>
+
+        <script type="module">
+            import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
+
+            // Firestore 사용 라이브러리 추가
+            import {
+                getFirestore,
+                collection,
+                getDocs,
+            } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
+
+            const firebaseConfig = {
+                apiKey: "",
+                authDomain: "primestudy-1719c.firebaseapp.com",
+                projectId: "primestudy-1719c",
+                storageBucket: "primestudy-1719c.appspot.com",
+                messagingSenderId: "738247378100",
+                appId: "1:738247378100:web:24e274e4c7f37c222843e1"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+
+            const db = getFirestore(app);
+
+            const docs = await getDocs(collection(db, 'movies'));
+
+            docs.forEach((doc) => {
+                const movie = doc.data();
+
+                const titleDiv = document.getElementById('title');
+                titleDiv.textContent = movie.title;
+
+                const yearDiv = document.getElementById('year');
+                yearDiv.textContent = movie.year;
+
+                // API 호출 결과 확인용 로깅
+                console.log(`${doc.id}, ${movie.title}, ${movie.year}`);
+            });
+        </script>
+    </body>
+</html>
